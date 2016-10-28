@@ -1,5 +1,6 @@
 package udp;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.io.*;
 
 /**
@@ -10,7 +11,8 @@ import java.io.*;
  */
 public class Client {
 	public static void main(String args[]) throws IOException{
-		String serv_addr = "0.0.0.0";
+		String server_addr = "localhost";
+		InetAddress mAddr = InetAddress.getByName("239.0.0.2");
 		int PORT_M = 7777;
 		int PORT_D = 7778;
 		int MAX = 65507;
@@ -21,11 +23,13 @@ public class Client {
 		
 		// Resta in attesa del messaggio in Multicast per l'attivazione
 		MulticastSocket sock = new MulticastSocket(PORT_M);
-		InetAddress addr = InetAddress.getByName(serv_addr);
+		InetAddress addr = InetAddress.getByName(server_addr);
 		sock.joinGroup(addr);
+		System.out.println("Client connesso\n");
 		byte [] mess = new byte[MAX];
 		DatagramPacket pack = new DatagramPacket(mess, mess.length);
 		sock.receive(pack);
+		System.out.println("ho ricevuto\n"+new String(pack.getData()));
 		sock.close();
 		
 		/*
@@ -33,12 +37,14 @@ public class Client {
 		 * viene chiusa e viene aperta una socket Datagram per rispondere
 		 * inviando il suo id ed il suo MAC address.
 		 */
-		DatagramSocket d_sock = new DatagramSocket(PORT_D);
+		DatagramSocket d_sock = new DatagramSocket();
 		String response = dev.getId() + " " + dev.getMac();
-		byte [] res = response.getBytes();
-		DatagramPacket res_pack = new DatagramPacket(res, res.length);
+		byte [] res = response.getBytes("UTF-8");
+		System.out.println(new String(res) + " " + res.length);
+		DatagramPacket res_pack = new DatagramPacket(res, res.length, addr, PORT_D);
 		d_sock.send(res_pack);
 		
+		System.out.println("Hoinviato il pacchetto\n");
 		/*
 		 * A questo punto il Client è operativo e comincia a mandare i suoi
 		 * messaggi di imalive una volta ogni secondo.

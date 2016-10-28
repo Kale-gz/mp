@@ -17,7 +17,7 @@ public class Server {
         String receiveMessage;		
         
         int portM = 7777;
-        InetAddress addr = InetAddress.getByName("0.0.0.0");
+        InetAddress addr = InetAddress.getByName("239.0.0.2");
         MulticastSocket serverMSocket = new MulticastSocket(portM);
 
         System.out.println("Il server è connesso.\n");
@@ -27,10 +27,12 @@ public class Server {
         threadCheckList.start();
 	   	 
          while(true){
-        	 // Il server è in attesa di messaggi dai client        	 
+        	 // Il server è in attesa di messaggi dai client 
+        	 System.out.println("sono nel while");
+        	 System.out.println(serverSocket.getLocalPort()+" "+serverSocket.getPort()+" "+serverSocket.getLocalAddress());
         	 serverSocket.receive(receivePacket);
-////////
              receiveMessage = new String(receivePacket.getData());
+             
              System.out.println("RECEIVED: " + receiveMessage +"\n");
              
              String[] valuesReceived = receiveMessage.split("[ ]");
@@ -40,11 +42,9 @@ public class Server {
              //test sul messaggio
              if(msg.equals("imalive")){
             	 //if is alive
-            	 // 
-            	 //FAI QUELLO CHE DEVI FARE
             	 for(ThreadDevice td : tDevList){
             		 if(td.getMyId()== id)
-            			 //td.
+            			 td.doRestart();
             	 }
              }else{
             	 // se il messagigo non è isalive

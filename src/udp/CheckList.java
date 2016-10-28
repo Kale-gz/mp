@@ -22,6 +22,7 @@ public class CheckList extends Thread{
         while(true){
 			try {
 				checkAlive();
+				System.out.println("ho inviato un isalive\n");
 				Thread.sleep(ms_wait);
 			} catch (InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
