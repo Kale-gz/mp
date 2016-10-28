@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ThreadDevice extends Thread {
 	private ArrayList<Device> deviceList;
 	private int id;
-	
+	 
 	
 	public ThreadDevice(ArrayList<Device> deviceList, int id){
 		this.deviceList=deviceList;
