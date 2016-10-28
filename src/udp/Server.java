@@ -7,6 +7,7 @@ public class Server {
 	public static void main(String args[]) throws Exception
     {
 		ArrayList<Device> devicesList = new ArrayList<Device>();
+		ArrayList<ThreadDevice> tDevList = new ArrayList<ThreadDevice>();
 		
 		int port = 7778;
 		int maxDimDatagram = 65507;
@@ -32,21 +33,33 @@ public class Server {
              receiveMessage = new String(receivePacket.getData());
              System.out.println("RECEIVED: " + receiveMessage +"\n");
              
+             String[] valuesReceived = receiveMessage.split("[ ]");
+             int id = Integer.parseInt(valuesReceived[0]);
+             String msg = valuesReceived[1];
+             
              //test sul messaggio
-             if(receiveMessage.equals("imalive")){
+             if(msg.equals("imalive")){
             	 //if is alive
             	 // 
             	 //FAI QUELLO CHE DEVI FARE
+            	 for(ThreadDevice td : tDevList){
+            		 if(td.getMyId()== id)
+            			 //td.
+            	 }
              }else{
-            	 // se il messagigo non è is alive
+            	 // se il messagigo non è isalive
             	 // c'è un nuovo device che bisogna aggiungele alla lista
-            	 String[] valuesReceived = receiveMessage.split("[ ]");
-            	 int num = Integer.parseInt(valuesReceived[0]);
-            	 int id = Integer.parseInt(valuesReceived[1]);
-            	 String mac = valuesReceived[2];
-            	 Device newDevice = new Device (id, num, mac);
+
+            	 // msg = MAC
+
+            	 Device newDevice = new Device (id, msg);
+            	 ThreadDevice newThread = new ThreadDevice(devicesList, id);
             	 
-            	 devicesList.add(newDevice);            	 
+            	 devicesList.add(newDevice);
+            	 tDevList.add(newThread);
+            	 
+            	 newThread.start();
+            	 // il thread inizia a contare
              } 
          }
 	}
