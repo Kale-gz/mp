@@ -29,7 +29,7 @@ public class Client {
 		DatagramSocket d_sock = new DatagramSocket(PORT_D);
 		long ms_wait = 1000;
 		while(true){
-			String str = dev.getId()+ " imalive";
+			String str = dev.getId() + " imalive";
 			byte[] msg = str.getBytes();
 			DatagramPacket packet=new DatagramPacket(msg, msg.length, addr, PORT_D);
 			d_sock.send(packet);
