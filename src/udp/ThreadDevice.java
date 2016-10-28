@@ -12,6 +12,10 @@ public class ThreadDevice extends Thread {
 		this.id=id;
 	}
 	
+	public int getMyId(){
+		return id;
+	}
+	
 	public void run(){
 		int ms_wait=5000;
 		while(true){
@@ -28,4 +32,6 @@ public class ThreadDevice extends Thread {
 			}
 		}
 	}
+	
+
 }
