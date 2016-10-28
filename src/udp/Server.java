@@ -3,13 +3,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-
-/**
- * Ciao faccio finta di essere una documentazione
- * 
- * @author amedy
- *
- */
 public class Server {
 	public static void main(String args[]) throws Exception
     {

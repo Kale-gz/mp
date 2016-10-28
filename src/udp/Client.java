@@ -20,7 +20,7 @@ public class Client {
 		DatagramPacket p = new DatagramPacket(mess, mess.length);
 		sock.receive(p);
 		
-		String response = dev.getNum() + " " + dev.getId() + " " + dev.getMac();
+		String response = dev.getId() + " " + dev.getMac();
 		byte [] res = response.getBytes();
 		DatagramPacket rp = new DatagramPacket(res, res.length);
 		sock.send(rp);
@@ -29,7 +29,8 @@ public class Client {
 		DatagramSocket d_sock = new DatagramSocket(PORT_D);
 		long ms_wait = 1000;
 		while(true){
-			byte[] msg = {'i','m','a','l','i','v','e'};
+			String str = dev.getId() + " imalive";
+			byte[] msg = str.getBytes();
 			DatagramPacket packet=new DatagramPacket(msg, msg.length, addr, PORT_D);
 			d_sock.send(packet);
 			try {
