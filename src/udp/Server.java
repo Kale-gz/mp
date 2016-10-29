@@ -24,11 +24,12 @@ public class Server {
 			MulticastSocket serverMSocket = new MulticastSocket(portM);
 
 			System.out.println("Il server è connesso.");
-
-//			una volta connesso il server inizia a interrogare la rete 
-//			per vedere se ci sono client collegati
-//			Per farlo viene lanciato il thread threadCheckList
-//			che invia i messaggi di 'isalive' in broadcast
+			
+/*			una volta connesso il server inizia a interrogare la rete 
+*			per vedere se ci sono client collegati
+*			Per farlo viene lanciato il thread threadCheckList
+*			che invia i messaggi di 'isalive' in broadcast
+*/
 			CheckList threadCheckList = new CheckList(serverMSocket, addr);
 			threadCheckList.start();
 		} catch (SocketException e) {
@@ -52,10 +53,11 @@ public class Server {
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			String receiveMessage;	
 
-//			A questo punto il server si mette in attesa di pacchetti  a lui indirizzati
-//			i pacchetti possono essere di due tipi:
-//				- messaggio di 'imalive' da parte di un client gia connesso
-//				- messaggio da parte di un nuovo client
+/*			A questo punto il server si mette in attesa di pacchetti  a lui indirizzati
+*			i pacchetti possono essere di due tipi:
+*				- messaggio di 'imalive' da parte di un client gia connesso
+*				- messaggio da parte di un nuovo client
+*/
 			while(true){
 				try {
 					serverSocket.receive(receivePacket);
@@ -77,8 +79,9 @@ public class Server {
 
 						Device newDevice = new Device (id, msg);
 						ThreadDevice newThread = new ThreadDevice(devicesList, id);
-//						bisogna ora aggiungere il nuovo device alla lista 
-//						controllando prima che non ce ne sia uno con lo stesso ID gia presente.
+/*						bisogna ora aggiungere il nuovo device alla lista 
+*						controllando prima che non ce ne sia uno con lo stesso ID gia presente.
+*/
 						for (Device i : devicesList){
 							if(i.getId()==id){
 								System.out.println("Device già connesso.");
