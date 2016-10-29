@@ -4,7 +4,7 @@ package udp;
  * Classe contenente tutti i metodi necessari alla gestione di un Device.
  * 
  * @author Giuseppe De Gregorio, Amedeo Fortino, Francesca Sabatino
- * @version 1.0.0
+ * @version 1.0.1
  *
  */
 public class Device {
