@@ -22,7 +22,6 @@ public class CheckList extends Thread{
         while(true){
 			try {
 				checkAlive();
-				System.out.println("ho inviato un isalive\n");
 				Thread.sleep(ms_wait);
 			} catch (InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
@@ -37,5 +36,6 @@ public class CheckList extends Thread{
 		//		InetAddress addr=InetAddress.getByName("0.0.0.0");
 		DatagramPacket packet=new DatagramPacket(msg,msg.length,addr,PORT);
 		sock.send(packet);
+		System.out.println("Ho inviato il pacchetto Multicast");
 	}
 }

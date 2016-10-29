@@ -24,6 +24,9 @@ public class Device {
 		this.id = id;
 		this.mac = mac;
 	}
+	public Device (){
+		
+	}
 
 	/**
 	 * Restituisce il MAC address del device

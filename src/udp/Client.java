@@ -1,6 +1,9 @@
 package udp;
 import java.net.*;
 import java.nio.charset.Charset;
+
+import javax.swing.JOptionPane;
+
 import java.io.*;
 
 /**
@@ -17,19 +20,21 @@ public class Client {
 		int PORT_D = 7778;
 		int MAX = 65507;
 		long MS_WAIT = 1000;
-		
+		int id=Integer.parseInt(JOptionPane.showInputDialog("Inserisci l'ID del device"));
+		String mac= JOptionPane.showInputDialog("Inserisci il MAC Address: ");
+	
 		// Istanzio un device sul client
-		Device dev = new Device(1,"ASDF");
+		Device dev = new Device(id,"ASDF");
 		
 		// Resta in attesa del messaggio in Multicast per l'attivazione
 		MulticastSocket sock = new MulticastSocket(PORT_M);
 		InetAddress addr = InetAddress.getByName(server_addr);
-		sock.joinGroup(addr);
-		System.out.println("Client connesso\n");
+		sock.joinGroup(mAddr);
+		System.out.println("Client connesso");
 		byte [] mess = new byte[MAX];
 		DatagramPacket pack = new DatagramPacket(mess, mess.length);
 		sock.receive(pack);
-		System.out.println("ho ricevuto\n"+new String(pack.getData()));
+		System.out.println("Ho ricevuto il pacchetto Multicast "+new String(pack.getData()));
 		sock.close();
 		
 		/*
@@ -44,16 +49,17 @@ public class Client {
 		DatagramPacket res_pack = new DatagramPacket(res, res.length, addr, PORT_D);
 		d_sock.send(res_pack);
 		
-		System.out.println("Hoinviato il pacchetto\n");
+		System.out.println("Ho inviato la risposta al Multicast.");
 		/*
 		 * A questo punto il Client è operativo e comincia a mandare i suoi
 		 * messaggi di imalive una volta ogni secondo.
 		 */
-		while(true){
-			String str = dev.getId() + " imalive";
+		while(true){	
+			String str = dev.getId() + " imalive ";
 			byte[] msg = str.getBytes();
 			DatagramPacket packet=new DatagramPacket(msg, msg.length, addr, PORT_D);
 			d_sock.send(packet);
+			System.out.println("Ho inviato il pacchetto imalive.");
 			try {
 				Thread.sleep(MS_WAIT);
 			} catch (InterruptedException e){

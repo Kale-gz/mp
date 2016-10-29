@@ -17,30 +17,33 @@ public class ThreadDevice extends Thread {
 		return id;
 	}
 	public void run(){
-		int ms_wait=1000;
+		long ms_wait=1000;
 		int sec = 0;
-		int max_sec = 300;
-		
+		int max_sec = 30;
+		Device ndev = new Device();
 		while(sec<max_sec){
 			try {
 				sec++;
 				if(restart){
 					sec=0;
 					restart=false;
+					System.out.println("Ho resettato il thread del device "+id+" dalla lista.");
 				}
-				wait(ms_wait);
+				Thread.sleep(ms_wait);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		for (Device i : deviceList){
-					if(i.getId()==id){
-						deviceList.remove(i);
-					}
-				}
+			if(i.getId()==id){
+				ndev = i;
+			}
+		}
+		deviceList.remove(ndev);
+		System.out.println("Ho eliminato il device "+id+"  dalla lista.");
 	}
-	
+
 	public void doRestart(){
 		restart = true;
 	}
