@@ -93,7 +93,9 @@ public class Server {
 							}
 						}
 						if(!connected){
-							devicesList.add(newDevice);
+							synchronized(devicesList){
+								devicesList.add(newDevice);
+							}
 							tDevList.add(newThread);
 							System.out.println("Nuovo devices connesso. id:"+ 
 																newDevice.getId());

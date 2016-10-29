@@ -28,9 +28,9 @@ public class ThreadDevice extends Thread {
 	 * @param id id del device
 	 */
 	public ThreadDevice(ArrayList<Device> deviceList, int id){
-		this.deviceList=deviceList;
-		this.id=id;
-		restart=false;
+		this.deviceList = deviceList;
+		this.id = id;
+		restart = false;
 	}
 	
 	/**
@@ -56,8 +56,8 @@ public class ThreadDevice extends Thread {
 			try {
 				sec++;
 				if(restart){
-					sec=0;
-					restart=false;
+					sec = 0;
+					restart = false;
 					System.out.println("Ho resettato il thread del device "+id+" dalla lista.");
 				}
 				Thread.sleep(ms_wait);
@@ -70,7 +70,9 @@ public class ThreadDevice extends Thread {
 				ndev = i;
 			}
 		}
-		deviceList.remove(ndev);
+		synchronized(deviceList){
+			deviceList.remove(ndev);
+		}
 		System.out.println("Ho eliminato il device "+id+"  dalla lista.");
 	}
 
