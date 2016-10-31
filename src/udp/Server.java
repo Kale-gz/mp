@@ -7,6 +7,14 @@ import java.util.ArrayList;
 /**
  * Classe che gestisce il Server
  * 
+ * Protocollo definito
+ * Messaggi Ricevuti:
+ *   - ID imalive			messaggio ricevuto da parte del client per notificare
+ *   						la sua attività			
+ *   - ID MAC				messaggio di risposta del client al pacchetto multicast
+ * Messaggi Inviati:
+ *   - isalive				pacchetto multicast inviato 
+ * 
  * @author Giuseppe De Gregorio, Amedeo Fortino, Francesca Sabatino
  * @version 1.2
  */
@@ -30,7 +38,7 @@ public class Server {
 			 * Per farlo viene lanciato il thread threadCheckList
 			 * che invia i messaggi di 'isalive' in broadcast
 			 */
-			CheckList threadCheckList = new CheckList(serverMSocket, addr);
+			CheckList threadCheckList = new CheckList(serverMSocket, addr, tDevList);
 			threadCheckList.start();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -70,6 +78,7 @@ public class Server {
 					int id = Integer.parseInt(valuesReceived[0]);
 					String msg = valuesReceived[1];
 					System.out.println("Sono connessi "+devicesList.size()+" devices");
+					System.out.println("Ci sono " + tDevList.size()+" thread");
 
 					if(msg.equals("imalive")){
 						for(ThreadDevice td : tDevList){
@@ -77,7 +86,6 @@ public class Server {
 								td.doRestart();
 						}
 					}else{
-						// msg = MAC_del_device
 						Device newDevice = new Device (id, msg);
 						ThreadDevice newThread = new ThreadDevice(devicesList, id);
 						
@@ -95,10 +103,12 @@ public class Server {
 						if(!connected){
 							synchronized(devicesList){
 								devicesList.add(newDevice);
+								System.out.println("Nuovo devices connesso. id:"+ 
+																	newDevice.getId());
 							}
-							tDevList.add(newThread);
-							System.out.println("Nuovo devices connesso. id:"+ 
-																newDevice.getId());
+							synchronized(tDevList){
+								tDevList.add(newThread);
+							}
 							newThread.start();
 							connected=false;
 						}
